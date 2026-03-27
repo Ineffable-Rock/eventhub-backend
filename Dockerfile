@@ -9,9 +9,7 @@ COPY src ./src
 # Run the maven build inside the container!
 RUN mvn clean package -DskipTests
 
-# ==========================
-# STAGE 2: RUN THE APP
-# ==========================
+
 FROM eclipse-temurin:21-jdk-alpine
 WORKDIR /app
 

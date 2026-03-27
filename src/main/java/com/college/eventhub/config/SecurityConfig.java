@@ -54,12 +54,13 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allows the Frontend URL (e.g., React on port 3000)
-        // Use "*" to allow everyone (only for development)
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+
+        configuration.setAllowedOrigins(List.of("http://localhost:3000",
+                "http://localhost:5173","https://gopass-main.vercel.app"));
 
         // Allow standard HTTP methods
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
 
         // Allow Authorization headers (Bearer Token)
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
