@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/auth/**").permitAll() // Open endpoints
                         .requestMatchers("/api/event/allEvent").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated() // Everything else needs a token
                 )
 
