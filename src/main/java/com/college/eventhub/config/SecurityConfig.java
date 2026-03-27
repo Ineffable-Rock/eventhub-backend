@@ -66,7 +66,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
 
         // Allow Authorization headers (Bearer Token)
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
