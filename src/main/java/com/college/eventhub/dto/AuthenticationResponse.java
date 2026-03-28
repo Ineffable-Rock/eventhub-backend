@@ -14,6 +14,10 @@ public class AuthenticationResponse {
     private String token;
     private String message;
     private String role;
+    private String name;
+    private Integer pinCode;
+    private String email;
+    private String collegName;
 
     private List<UserDto> pendingUsers;
 }

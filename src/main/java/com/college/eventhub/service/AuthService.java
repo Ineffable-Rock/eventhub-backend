@@ -25,12 +25,12 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        // 1. Check if email already exists
+        //  Check if email already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists with this email");
         }
 
-        // 2. Build the basic User object
+        //  Build the basic User object
         var user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
@@ -39,8 +39,9 @@ public class AuthService {
                 .idCardUrl(request.getIdCardUrl())
                 .build();
 
+        College userCollege = null;
 
-        // CASE 1: ADMIN (Creates a new College)
+        // Case 1: ADMIN (creates a new college)
         if (request.getRole() == Role.ADMIN) {
             if (collegeRepository.findByPinCode(request.getPinCode()).isPresent()) {
                 throw new RuntimeException("An admin already exists from your college");
@@ -56,12 +57,13 @@ public class AuthService {
                     .build();
 
             College savedCollege = collegeRepository.save(newCollege);
+            userCollege = savedCollege;
 
             savedAdmin.setCollege(savedCollege);
             userRepository.save(savedAdmin);
         }
 
-        // CASE 2: ORGANIZER (Must join an existing College)
+        // Case 2: ORGANIZER (must join an existing college)
         else if (request.getRole() == Role.ORGANIZER) {
             if (request.getPinCode() == null) {
                 throw new RuntimeException("Organizers must provide a College Pincode!");
@@ -69,16 +71,16 @@ public class AuthService {
 
             College college = collegeRepository.findByPinCode(request.getPinCode())
                     .orElseThrow(() -> new RuntimeException("Invalid Pincode: Your college is not registered yet"));
-
+            userCollege = college;
             user.setCollege(college);
-            user.setEnabled(false); // Organizers need approval
+            user.setEnabled(false); 
             userRepository.save(user);
         }
 
-        // CASE 3: STUDENT (Global User - No College Needed)
+        // Case 3: Student (Global User -no college needed)
         else {
-            user.setCollege(null); // Explicitly null (Make sure User entity allows nullable college)
-            user.setEnabled(true); // Students are auto-enabled
+            user.setCollege(null);
+            user.setEnabled(true);
             userRepository.save(user);
         }
 
@@ -91,6 +93,10 @@ public class AuthService {
                 .token(jwtToken)
                 .message(user.isEnabled() ? "Registration Successful" : "Account created. Wait for Admin approval.")
                 .role(user.getRole().name())
+                .name(user.getFullName())
+                .email(user.getEmail())
+                .collegName(userCollege == null ? null : userCollege.getName())
+                .pinCode(userCollege == null ? null : userCollege.getPinCode())
                 .build();
     }
 

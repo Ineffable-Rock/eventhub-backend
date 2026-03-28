@@ -2,7 +2,6 @@ package com.college.eventhub.controller;
 
 import com.college.eventhub.dto.AuthenticationResponse;
 import com.college.eventhub.dto.LoginRequest;
-import com.college.eventhub.dto.LoginResponse;
 import com.college.eventhub.dto.RegisterRequest;
 import com.college.eventhub.service.AuthService;
 import lombok.RequiredArgsConstructor;
