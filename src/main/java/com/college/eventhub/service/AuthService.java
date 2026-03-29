@@ -25,12 +25,12 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        //  Check if email already exists
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists with this email");
         }
 
-        //  Build the basic User object
+
         var user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
@@ -73,7 +73,7 @@ public class AuthService {
                     .orElseThrow(() -> new RuntimeException("Invalid Pincode: Your college is not registered yet"));
             userCollege = college;
             user.setCollege(college);
-            user.setEnabled(false); 
+            user.setEnabled(false);
             userRepository.save(user);
         }
 
