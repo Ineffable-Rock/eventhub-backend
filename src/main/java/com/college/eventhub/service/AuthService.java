@@ -145,6 +145,10 @@ public class AuthService {
                 .message("Login Successful")
                 .role(user.getRole().name())
                 .pendingUsers(pendingUserDtos)
+                .name(user.getFullName())
+                .email(user.getEmail())
+                .collegName(user.getCollege() != null ? user.getCollege().getName() : null)
+                .pinCode(user.getCollege() != null ? user.getCollege().getPinCode() : null)
                 .build();
     }
 }
