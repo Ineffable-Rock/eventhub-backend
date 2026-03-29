@@ -25,11 +25,9 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("User already exists with this email");
         }
-
 
         var user = User.builder()
                 .fullName(request.getFullName())
@@ -95,8 +93,9 @@ public class AuthService {
                 .role(user.getRole().name())
                 .name(user.getFullName())
                 .email(user.getEmail())
-                .collegName(userCollege == null ? null : userCollege.getName())
+                .collegeName(userCollege == null ? null : userCollege.getName())
                 .pinCode(userCollege == null ? null : userCollege.getPinCode())
+                .isAdminApproved(user.isEnabled()) // ADDED HERE
                 .build();
     }
 
@@ -147,8 +146,9 @@ public class AuthService {
                 .pendingUsers(pendingUserDtos)
                 .name(user.getFullName())
                 .email(user.getEmail())
-                .collegName(user.getCollege() != null ? user.getCollege().getName() : null)
+                .collegeName(user.getCollege() != null ? user.getCollege().getName() : null)
                 .pinCode(user.getCollege() != null ? user.getCollege().getPinCode() : null)
+                .isAdminApproved(user.isEnabled())
                 .build();
     }
 }

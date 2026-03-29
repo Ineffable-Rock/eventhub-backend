@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,7 +18,8 @@ public class AuthenticationResponse {
     private String name;
     private Integer pinCode;
     private String email;
-    private String collegName;
+    private String collegeName;
+    private Boolean isAdminApproved;
 
     private List<UserDto> pendingUsers;
 }
