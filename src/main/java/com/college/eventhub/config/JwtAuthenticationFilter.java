@@ -17,7 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-// Basically we are filtering every upcoming request and checking for the jwt token then allowing to get in
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -41,12 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        //Extracting the Token (Removing "Bearer " prefix)
         jwt = authHeader.substring(7);
 
         userEmail = jwtService.extractUsername(jwt);
 
-        //If user is found and not already authenticated
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 
@@ -55,8 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                //Creating Authentication Object
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+               UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
@@ -64,7 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Updating SecurityContext (Final Step: User is now logged in!)
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

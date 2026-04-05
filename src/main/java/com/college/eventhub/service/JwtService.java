@@ -40,18 +40,15 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // extract username
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
-    // extract specific claim
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaim(token);
         return claimsResolver.apply(claims);
     }
 
-    //extract all claims
     public Claims extractAllClaim(String token){
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -60,7 +57,6 @@ public class JwtService {
                 .getBody();
     }
 
-    // validating token
     public  boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

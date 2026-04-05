@@ -67,16 +67,13 @@ public class EventRegistrationService {
 
     public Page<StudentRegistrationResponse> getEventRegistrations(Integer eventId, User organizer, int page, int size) {
 
-        // Find the Event
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
-        // check if this organizer own this event?
         if (!event.getOrganizer().getId().equals(organizer.getId())) {
             throw new RuntimeException("Unauthorized: You do not have permission to view this event's registrations.");
         }
 
-        // Fetch the registrations for this specific event
         Pageable pageable = PageRequest.of(page, size, Sort.by("registrationDate").descending());
         Page<EventRegistration> registrations = registrationRepository.findByEventId(eventId, pageable);
 

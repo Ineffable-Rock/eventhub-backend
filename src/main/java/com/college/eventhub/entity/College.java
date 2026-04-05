@@ -29,13 +29,11 @@ public class College {
     @NotBlank
     private String name;
 
-    // link to admin user
     @OneToOne
     @JoinColumn(name = "admin_id")
     @JsonIgnore
     private User admin;
 
-    // linking to the members
     @OneToMany(mappedBy = "college")
     @JsonIgnore
     private List<User> memebers;

@@ -30,7 +30,6 @@ public class AdminService {
                 myCollegeId, Role.ORGANIZER, false
         );
 
-        // Convert to DTOs
         List<UserDto> cleanList = rawUsers.stream()
                 .map(u -> UserDto.builder()
                         .id(u.getId())

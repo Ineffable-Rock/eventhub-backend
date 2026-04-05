@@ -39,7 +39,6 @@ public class AuthService {
 
         College userCollege = null;
 
-        // Case 1: ADMIN (creates a new college)
         if (request.getRole() == Role.ADMIN) {
             if (collegeRepository.findByPinCode(request.getPinCode()).isPresent()) {
                 throw new RuntimeException("An admin already exists from your college");
@@ -61,7 +60,6 @@ public class AuthService {
             userRepository.save(savedAdmin);
         }
 
-        // Case 2: ORGANIZER (must join an existing college)
         else if (request.getRole() == Role.ORGANIZER) {
             if (request.getPinCode() == null) {
                 throw new RuntimeException("Organizers must provide a College Pincode!");
@@ -75,7 +73,6 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        // Case 3: Student (Global User -no college needed)
         else {
             user.setCollege(null);
             user.setEnabled(true);
@@ -116,9 +113,7 @@ public class AuthService {
 
         List<UserDto> pendingUserDtos = null;
 
-        // Only fetch pending users if the logged-in user is an ADMIN
         if (user.getRole() == Role.ADMIN) {
-            // Added null check for college just in case
             if (user.getCollege() != null) {
                 List<User> rawUsers = userRepository.findByCollegeIdAndRoleAndIsEnabled(
                         user.getCollege().getId(),

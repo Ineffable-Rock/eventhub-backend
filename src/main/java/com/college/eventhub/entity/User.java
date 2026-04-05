@@ -33,8 +33,7 @@ public class User implements UserDetails {
 
     private boolean isEnabled;
 
-    //foreign key to college table
-    @ManyToOne
+   @ManyToOne
     @JoinColumn(name = "college_id", nullable = true)
     private College college;
 

@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.util.Map;
 
-@Data // will generate all the getter and setter method
+@Data
 public class RegisterRequest {
 
     @NotBlank(message = "Name could not be blank")

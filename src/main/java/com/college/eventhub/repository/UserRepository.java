@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    // It must return YOUR 'User' entity, not 'UserDetails'
     Optional<User> findByEmail(String email);
     List<User> findByCollegeIdAndRoleAndIsEnabled(Integer collegeId, Role role, boolean isEnabled);
 }

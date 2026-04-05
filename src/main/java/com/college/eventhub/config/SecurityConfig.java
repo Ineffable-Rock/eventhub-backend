@@ -29,13 +29,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Disable CSRF (Correct for JWT)
                 .csrf(csrf -> csrf.disable())
 
-                // 2. ENABLE CORS (Critical for Frontend)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 3. Authorization Rules
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/auth/**").permitAll() // Open endpoints
@@ -44,10 +41,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // Everything else needs a token
                 )
 
-                // 4. Stateless Session
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // 5. Auth Provider & Filter
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -62,11 +57,9 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:3000",
                 "http://localhost:5173","https://gopass-main.vercel.app"));
 
-        // Allow standard HTTP methods
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
 
-        // Allow Authorization headers (Bearer Token)
         configuration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

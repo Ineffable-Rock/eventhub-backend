@@ -62,7 +62,6 @@ public class EventService {
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
         return EventResponse.builder()
-                // 🟢 Map EVERYTHING here because the user clicked on it
                 .id(event.getId())
                 .eventName(event.getEventName())
                 .description(event.getDescription())

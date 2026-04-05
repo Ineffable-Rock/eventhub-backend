@@ -19,7 +19,6 @@ public class EventRegistrationController  {
 
     private final EventRegistrationService registrationService;
 
-    // TO register for an event
     @PostMapping("/{eventId}")
     public ResponseEntity<String> registerUser(
             @PathVariable Integer eventId,
@@ -30,7 +29,6 @@ public class EventRegistrationController  {
         return ResponseEntity.ok(response);
     }
 
-    // User's personal registration list
     @GetMapping("/userRegistrations")
     public ResponseEntity<Page<EventResponse>> fetchPersonalList(
             @RequestParam(defaultValue = "0")int page,
@@ -41,7 +39,6 @@ public class EventRegistrationController  {
         return ResponseEntity.ok(events);
     }
 
-    // Organizer's Registration list for an event
     @GetMapping("/event/{eventId}")
     public ResponseEntity<Page<StudentRegistrationResponse>> getRegistrationsForEvent(
             @PathVariable Integer eventId, //  Sending EventID

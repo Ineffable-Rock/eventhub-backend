@@ -19,9 +19,6 @@ public class ApplicationConfig {
 
     private final UserRepository userRepository;
 
-    //Why use it? Spring Security is "dumb."
-    //It doesn't know you are using a Database, or Postgres, or that your table is called _user. It just needs a UserDetails object
-    //You are teaching Spring: "Hey, whenever you need to find a user, run this specific SQL query using my Repository."
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
@@ -38,10 +35,8 @@ public class ApplicationConfig {
             UserDetailsService configUserDetailsService,
             PasswordEncoder configPasswordEncoder
     ) {
-        // 1. Pass UserDetailsService in the constructor (Required by your version)
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(configUserDetailsService);
+       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(configUserDetailsService);
 
-        // 2. Pass PasswordEncoder via setter (As seen on line 110 of your file)
         authProvider.setPasswordEncoder(configPasswordEncoder);
 
         return authProvider;
